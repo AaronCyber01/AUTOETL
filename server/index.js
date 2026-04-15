@@ -14,8 +14,8 @@ app.use(express.json({ limit: '50mb' }));
 
 // Init Google Gen AI
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || 'MISSING_API_KEY' });
-const MODEL_NAME = "gemini-3-flash-preview";
-const FALLBACK_MODEL_NAME = "gemini-3.0-flash";
+const MODEL_NAME = "gemini-3.1-flash-lite-preview";
+const FALLBACK_MODEL_NAME = "gemini-2.5-flash";
 
 async function generateContentWithFallback(params) {
     try {

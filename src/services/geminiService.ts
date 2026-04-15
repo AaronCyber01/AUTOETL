@@ -55,7 +55,7 @@ async function fetchFromBackend(endpoint: string, payload: any) {
     
     if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || \`Backend request failed with status \${res.status}\`);
+        throw new Error(err.error || ('Backend request failed with status ' + res.status));
     }
     
     return await res.json();

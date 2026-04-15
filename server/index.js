@@ -21,8 +21,8 @@ async function generateContentWithFallback(params) {
     try {
         return await ai.models.generateContent(params);
     } catch (error) {
-        if (error?.status === 429 && params.model === MODEL_NAME) {
-            console.warn(`[AutoETL Failover] Rate limit (429) hit on ${MODEL_NAME}. Downgrading to fallback model: ${FALLBACK_MODEL_NAME}...`);
+        if ([429, 503, 500, 502].includes(error?.status) && params.model === MODEL_NAME) {
+            console.warn(`[AutoETL Failover] Temporary API constraint (${error.status}) hit on ${MODEL_NAME}. Downgrading to fallback model: ${FALLBACK_MODEL_NAME}...`);
             return await generateContentWithFallback({
                 ...params,
                 model: FALLBACK_MODEL_NAME

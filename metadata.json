@@ -1,0 +1,5 @@
+{
+  "name": "AutoETL Multi-Agent System",
+  "description": "An autonomous multi-agent AI system that automates the end-to-end data engineering life cycle for structured tabular data.",
+  "requestFramePermissions": []
+}

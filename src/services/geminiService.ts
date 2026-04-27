@@ -62,8 +62,8 @@ async function fetchFromBackend(endpoint: string, payload: any) {
 }
 
 export const geminiService = {
-  async runProfiler(csvHeader: string, sampleRows: string): Promise<ProfilerResult> {
-    return fetchFromBackend('/api/runProfiler', { csvHeader, sampleRows });
+  async runProfiler(datasetProfile: any): Promise<ProfilerResult> {
+    return fetchFromBackend('/api/runProfiler', { datasetProfile });
   },
 
   async runPlanner(schema: ProfilerResult, userRequest: string): Promise<PlannerResult> {

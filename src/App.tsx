@@ -22,8 +22,7 @@ function cn(...inputs: ClassValue[]) {
 export default function App() {
   const [csvData, setCsvData] = useState<string>('');
   const [csvPreview, setCsvPreview] = useState<any[]>([]);
-  const [csvHeader, setCsvHeader] = useState<string>('');
-  const [sampleRows, setSampleRows] = useState<string>('');
+
   const [dataFormat, setDataFormat] = useState<string>('');
   const [originalFileName, setOriginalFileName] = useState<string>('');
   
@@ -93,17 +92,13 @@ export default function App() {
       
       Papa.parse(csv, {
         header: true,
-        preview: 50,
         skipEmptyLines: true,
         complete: async (results) => {
-          setCsvPreview(results.data);
-          if (results.meta.fields) setCsvHeader(results.meta.fields.join(','));
-          const sample = results.data.map(row => Object.values(row as any).join(',')).join('\n');
-          setSampleRows(sample);
+          setCsvPreview(results.data.slice(0, 10));
           try {
             const profile = await pyodideService.profileDataset(csv);
             setDatasetProfile(profile);
-          } catch (err) { } 
+          } catch (err) { }
           finally { setIsProfilingDataset(false); }
         }
       });
@@ -122,7 +117,7 @@ export default function App() {
       let profile = profilerResult;
       if (!profile) {
         setCurrentStep('profiling');
-        profile = await geminiService.runProfiler(csvHeader, sampleRows);
+        profile = await geminiService.runProfiler(datasetProfile);
         setProfilerResult(profile);
       }
       let plan = plannerResult;

@@ -35,17 +35,16 @@ async function generateContentWithFallback(params) {
 // Routes
 app.post('/api/runProfiler', async (req, res) => {
     try {
-        const { csvHeader, sampleRows } = req.body;
-        const prompt = `
-You are an expert Data Profiler Agent.
-Analyze the following CSV header and sample rows to determine the schema, data types, and provide a brief summary of the dataset.
+        const { datasetProfile } = req.body;
+        const prompt = `You are a data profiling expert. Analyze the following statistical profile computed from the FULL dataset (all rows, no sampling) and determine the schema, data quality issues, and provide a summary.
 
-CSV Header:
-${csvHeader}
+Dataset Profile (Full Dataset):
+${JSON.stringify(datasetProfile, null, 2)}
 
-Sample Rows:
-${sampleRows}
-`;
+Based on this profile, return your analysis including:
+- Column names and their inferred data types
+- Data quality observations (nulls, duplicates, outliers)
+- A brief summary of what this dataset contains and its overall quality`;
         const response = await generateContentWithFallback({
             model: MODEL_NAME,
             contents: prompt,

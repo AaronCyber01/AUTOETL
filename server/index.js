@@ -143,7 +143,7 @@ CRITICAL INSTRUCTIONS:
 3. Do not include any print statements, plotting, or file saving code.
 4. Only use standard pandas operations.
 5. Ensure the code is robust and handles potential missing values if necessary.
-6. CRITICAL: When converting string columns to numeric (float/int), you MUST handle non-numeric strings (like '?', 'N/A', 'NA', '', etc.) gracefully. Use \`pd.to_numeric(df['col'], errors='coerce')\` instead of \`df['col'].astype(float)\` to avoid ValueError.
+6. CRITICAL: When converting string columns to numeric (float/int), you MUST handle non-numeric strings (like '?', 'N/A', 'NA', '', 'ERROR', etc.) gracefully. Use \`pd.to_numeric(df['col'], errors='coerce')\` instead of \`df['col'].astype(float)\` or \`df['col'].astype(int)\` to avoid ValueError. NEVER USE \`.astype()\` for numeric conversions on string columns.
 7. CRITICAL: Before performing any numeric comparisons (e.g., >, <, >=, <=) on a column, you MUST ensure the column is converted to a numeric type using \`pd.to_numeric(..., errors='coerce')\`. Comparing strings to integers will cause a TypeError.
 8. Break down your code into stepAnnotations, where each step corresponds to a stepNumber in the plan.
 
@@ -202,7 +202,7 @@ CRITICAL CHECKS:
 2. Does the code assign the final result to a variable named \`result_df\`?
 3. Are there any security risks (e.g., os, sys, subprocess calls, file I/O)? If so, it MUST fail.
 4. Does the code logically follow the plan and user request?
-5. Does the code safely handle type conversions? (e.g., using \`pd.to_numeric(..., errors='coerce')\` instead of \`.astype(float)\` when converting strings that might contain '?' or 'N/A'). If it uses \`.astype(float)\` on potentially dirty string columns, it should fail and be corrected.
+5. Does the code safely handle type conversions? (e.g., using \`pd.to_numeric(..., errors='coerce')\` instead of \`.astype(float)\` or \`.astype(int)\` when converting strings that might contain '?' or 'N/A' or 'ERROR'). If it uses \`.astype()\` for numeric conversion on potentially dirty string columns, it MUST fail and be corrected to use \`pd.to_numeric(..., errors='coerce')\`.
 6. Does the code perform any numeric comparisons (>, <, >=, <=) on columns that might be strings? If so, it MUST convert them to numeric first using \`pd.to_numeric(..., errors='coerce')\`. Comparing strings to integers will cause a TypeError.
 
 User Request: "${userRequest}"

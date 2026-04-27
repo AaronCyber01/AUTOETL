@@ -114,7 +114,7 @@ df = pd.read_csv(io.StringIO(csv_data))
 stats = {
     "rowCount": len(df),
     "columnCount": len(df.columns),
-    "nullRates": (df.isnull().sum() / len(df)).to_dict(),
+    "nullRates": (df.isnull().sum() / len(df)).to_dict() if len(df) > 0 else {col: 0.0 for col in df.columns},
     "dtypes": df.dtypes.astype(str).to_dict()
 }
 json.dumps(stats)
@@ -148,7 +148,7 @@ if 'result_df' not in locals():
 stats = {
     "rowCount": len(result_df),
     "columnCount": len(result_df.columns),
-    "nullRates": (result_df.isnull().sum() / len(result_df)).to_dict(),
+    "nullRates": (result_df.isnull().sum() / len(result_df)).to_dict() if len(result_df) > 0 else {col: 0.0 for col in result_df.columns},
     "dtypes": result_df.dtypes.astype(str).to_dict()
 }
 

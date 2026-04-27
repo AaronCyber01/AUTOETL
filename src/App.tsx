@@ -93,7 +93,7 @@ export default function App() {
       
       Papa.parse(csv, {
         header: true,
-        preview: 5,
+        preview: 50,
         skipEmptyLines: true,
         complete: async (results) => {
           setCsvPreview(results.data);
@@ -158,7 +158,7 @@ export default function App() {
       let parsedPreview: any[] = [];
       Papa.parse(resultCsv, {
         header: true,
-        preview: 5,
+        preview: 100,
         skipEmptyLines: true,
         complete: (results) => {
           parsedPreview = results.data;
